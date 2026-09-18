@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/gamesonrblx/Jevbridge">
-    <img src="brand/logo.svg" alt="Jevbridge logo" width="80" height="80">
+    <img src="brand/icon.png" alt="Jevbridge logo" width="180" height="180">
   </a>
 
   <h3 align="center">Jevbridge</h3>

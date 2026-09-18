@@ -1,4 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#09090b"/>
-  <path d="M6.5 21.5V10.5H10v3.75h12V10.5h3.5v11H22v-3.75H10v3.75H6.5Z" fill="#c5ccd6"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="Jevbridge">
+  <title>Jevbridge</title>
+  <rect width="1080" height="1080" fill="#1c1919"/>
+  <g fill="#ef5a98" stroke="#000" stroke-width="4" stroke-linejoin="miter">
+    <rect x="113" y="492" width="110" height="109"/>
+    <rect x="299" y="323" width="110" height="278"/>
+    <rect x="485" y="172" width="110" height="736"/>
+    <rect x="671" y="323" width="110" height="278"/>
+    <rect x="857" y="492" width="110" height="109"/>
+  </g>
+  <defs>
+    <path id="wordmark-arc" d="M 300 148 Q 540 28 780 148"/>
+  </defs>
+  <text fill="#ef5a98" font-family="Impact, 'Arial Narrow', 'Franklin Gothic Medium', sans-serif" font-size="78" font-weight="700" letter-spacing="6">
+    <textPath href="#wordmark-arc" startOffset="50%" text-anchor="middle">JEVBRIDGE</textPath>
+  </text>
 </svg>
