@@ -71,7 +71,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Jevbridge][product-screenshot]](https://github.com/gamesonrblx/Jevbridge)
+<div align="center">
+  <a href="https://github.com/gamesonrblx/Jevbridge">
+    <img src="brand/icon.png" alt="Jevbridge" width="220" height="220">
+  </a>
+</div>
 
 [TypeSafe Jev](https://typesafe.ai) is a System One model: unstructured state in, typed probabilistic decisions out. It does not generate text. That makes it a poor chatbot and an excellent function call for routing, gating, scoring, and computer-use action selection.
 
@@ -383,7 +387,6 @@ Project Link: [https://github.com/gamesonrblx/Jevbridge](https://github.com/game
 [issues-url]: https://github.com/gamesonrblx/Jevbridge/issues
 [license-shield]: https://img.shields.io/github/license/gamesonrblx/Jevbridge.svg?style=for-the-badge
 [license-url]: https://github.com/gamesonrblx/Jevbridge/blob/main/LICENSE
-[product-screenshot]: brand/logo.svg
 [TypeScript]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
 [TypeScript-url]: https://www.typescriptlang.org/
 [Node.js]: https://img.shields.io/badge/Node.js_22-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
