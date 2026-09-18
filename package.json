@@ -1,0 +1,50 @@
+{
+  "name": "@tacticocc/jevbridge",
+  "version": "0.1.0",
+  "description": "ACP-compatible adapter that bridges TypeSafe Jev with any LLM for computer use and typed decisions.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "jevbridge": "./bin/jevbridge.mjs"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "bin",
+    "skills",
+    "examples",
+    "brand",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gamesonrblx/Jevbridge.git"
+  },
+  "homepage": "https://github.com/gamesonrblx/Jevbridge",
+  "bugs": {
+    "url": "https://github.com/gamesonrblx/Jevbridge/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "acp": "node --experimental-strip-types src/cli.ts acp",
+    "eval": "node --experimental-strip-types src/cli.ts eval",
+    "test": "node --experimental-strip-types --test src/*.test.ts src/**/*.test.ts"
+  },
+  "keywords": [
+    "jev",
+    "typesafe",
+    "acp",
+    "llm",
+    "computer-use",
+    "agent",
+    "codex",
+    "claude",
+    "grok",
+    "opencode"
+  ]
+}

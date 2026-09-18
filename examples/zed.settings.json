@@ -1,0 +1,18 @@
+{
+  "agent_servers": {
+    "Jevbridge": {
+      "type": "custom",
+      "command": "node",
+      "args": [
+        "--experimental-strip-types",
+        "/absolute/path/to/Jevbridge/src/cli.ts",
+        "acp"
+      ],
+      "env": {
+        "TYPESAFE_API_KEY": "ts_...",
+        "JEVBRIDGE_LLM": "xai",
+        "XAI_API_KEY": "xai-..."
+      }
+    }
+  }
+}
