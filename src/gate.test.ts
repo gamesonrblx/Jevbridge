@@ -42,3 +42,18 @@ test("abort choice aborts", () => {
   };
   assert.equal(gate(answers, { choiceId: "next_action" }).action, "abort");
 });
+
+test("noul without destructiveId is not treated as destructive", () => {
+  const answers: Answers = {
+    refund: { type: "noul", noul: 0.95 },
+    team: {
+      type: "choice",
+      choice: "billing",
+      confidence: 0.8,
+      probabilities: { billing: 0.8, other: 0.2 },
+    },
+  };
+  const decision = gate(answers);
+  assert.equal(decision.destructive, undefined);
+  assert.equal(decision.action, "execute");
+});

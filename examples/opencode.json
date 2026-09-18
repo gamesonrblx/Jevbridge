@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "jevbridge": {
+      "type": "local",
+      "command": [
+        "node",
+        "--experimental-strip-types",
+        "/absolute/path/to/Jevbridge/src/cli.ts",
+        "mcp"
+      ],
+      "enabled": true,
+      "environment": {
+        "TYPESAFE_API_KEY": "ts_...",
+        "JEVBRIDGE_LLM": "opencode",
+        "OPENCODE_API_KEY": "oc-..."
+      }
+    }
+  }
+}

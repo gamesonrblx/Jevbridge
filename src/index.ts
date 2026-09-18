@@ -9,5 +9,8 @@ export * from "./gate.ts";
 export * from "./computer-use.ts";
 export * from "./providers.ts";
 export * from "./recipes.ts";
+export * from "./env.ts";
 export * from "./acp/protocol.ts";
 export * from "./acp/turn.ts";
+export { MCP_TOOLS, callMcpTool } from "./mcp/tools.ts";
+export { handleMcpRequest, serveMcp } from "./mcp/stdio.ts";

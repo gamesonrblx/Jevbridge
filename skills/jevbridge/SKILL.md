@@ -3,7 +3,7 @@ name: jevbridge
 description: >
   Use TypeSafe Jev (or any LLM as a System One adapter) for typed decisions
   alongside a generating model. Triggers on routing, gating, scoring, computer
-  use next-action, ACP, Codex, Claude, Grok, OpenCode, noul/choice/score.
+  use next-action, MCP, ACP, Codex, Claude, Grok, OpenCode, noul/choice/score.
 ---
 
 # Jevbridge
@@ -39,6 +39,19 @@ Backends: `jev` (TypeSafe), `llm` (Codex / Claude / Grok / OpenCode / generic), 
 
 Use `computerUseQuestions(visibleControls)` and `observationState({ goal, app, visible })`.
 Never let the generator pick from an open set of DOM selectors. Jev returns `click | type | scroll | wait | screenshot | done | abort`.
+
+## MCP
+
+`node --experimental-strip-types src/cli.ts mcp` speaks Model Context Protocol on stdio (newline-delimited JSON-RPC). Point Claude Desktop, Cursor, Codex, or OpenCode at it.
+
+Tools:
+
+- `jev_decide` — noul / choice / score on one state
+- `jev_gate` — execute / confirm / escalate / abort
+- `jev_computer_use` — next GUI action from a closed set
+- `jev_recipe` — run `support-route`, `computer-use`, `destructive-gate`, or `compaction`
+
+See `examples/claude-desktop.json`, `examples/cursor.mcp.json`, `examples/codex.config.toml`, `examples/opencode.json`.
 
 ## ACP
 

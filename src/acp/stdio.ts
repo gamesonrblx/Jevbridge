@@ -4,7 +4,8 @@ import { evaluate } from "../evaluate.ts";
 import { gate } from "../gate.ts";
 import { computerUseQuestions, observationState, readAction } from "../computer-use.ts";
 import { choice, noul, score } from "../questions.ts";
-import type { EvaluateRequest, LlmConfig, State } from "../types.ts";
+import { envJev, envLlm } from "../env.ts";
+import type { EvaluateRequest, State } from "../types.ts";
 import {
   PROTOCOL_VERSION,
   promptText,
@@ -15,39 +16,6 @@ import {
   type JsonRpcResponse,
   type SessionUpdate,
 } from "./protocol.ts";
-
-function envLlm(): LlmConfig | undefined {
-  const provider = (process.env.JEVBRIDGE_LLM ?? "xai") as LlmConfig["provider"];
-  const key =
-    process.env.JEVBRIDGE_API_KEY ||
-    process.env.XAI_API_KEY ||
-    process.env.OPENAI_API_KEY ||
-    process.env.ANTHROPIC_API_KEY ||
-    process.env.OPENCODE_API_KEY;
-  if (!key) return undefined;
-  const models: Record<string, string> = {
-    xai: "grok-4.5",
-    openai: "gpt-4.1",
-    anthropic: "claude-sonnet-4-5",
-    opencode: "opencode-auto",
-    codex: "gpt-5",
-    generic: process.env.JEVBRIDGE_LLM_MODEL ?? "local-model",
-  };
-  const bases: Record<string, string> = {
-    xai: "https://api.x.ai/v1",
-    openai: "https://api.openai.com/v1",
-    anthropic: "https://api.anthropic.com/v1",
-    opencode: "https://opencode.ai/zen/v1",
-    codex: "https://api.openai.com/v1",
-    generic: process.env.JEVBRIDGE_BASE_URL ?? "http://127.0.0.1:11434/v1",
-  };
-  return {
-    provider,
-    apiKey: key,
-    model: process.env.JEVBRIDGE_LLM_MODEL ?? models[provider] ?? "grok-4.5",
-    baseUrl: process.env.JEVBRIDGE_BASE_URL ?? bases[provider],
-  };
-}
 
 function write(msg: JsonRpcResponse | JsonRpcNotification) {
   const json = JSON.stringify(msg);
@@ -93,7 +61,7 @@ async function readLoop(onMessage: (msg: JsonRpcRequest | JsonRpcNotification) =
 
 export async function serveAcp() {
   const llm = envLlm();
-  const jevKey = process.env.TYPESAFE_API_KEY;
+  const jev = envJev();
   const sessions = new Map<string, { cwd?: string }>();
 
   await readLoop(async (msg) => {
@@ -155,7 +123,7 @@ export async function serveAcp() {
                 ]),
               },
           backend: "auto",
-          jev: jevKey ? { apiKey: jevKey } : undefined,
+          jev,
           llm,
         };
 

@@ -43,7 +43,9 @@ function confidenceOf(answers: Answers, policy: GatePolicy): { value: number; ch
 export function gate(answers: Answers, policy: GatePolicy = {}): GateDecision {
   const p = { ...DEFAULT, ...policy };
   const { value: confidence, choice } = confidenceOf(answers, p);
-  const destructive = pickNoul(answers, p.destructiveId)?.noul;
+  const destructive = p.destructiveId
+    ? pickNoul(answers, p.destructiveId)?.noul
+    : undefined;
   const abortChoices = p.abortChoices ?? DEFAULT.abortChoices;
   const doneChoices = p.doneChoices ?? DEFAULT.doneChoices;
 

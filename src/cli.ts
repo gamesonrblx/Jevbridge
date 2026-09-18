@@ -3,10 +3,12 @@ import { evaluate } from "./evaluate.ts";
 import { recipeById, RECIPES } from "./recipes.ts";
 import { gate } from "./gate.ts";
 import { serveAcp } from "./acp/stdio.ts";
+import { serveMcp } from "./mcp/stdio.ts";
 
-const HELP = `Jevbridge — ACP adapter for TypeSafe Jev alongside any LLM
+const HELP = `Jevbridge — ACP + MCP adapter for TypeSafe Jev alongside any LLM
 
 Usage:
+  jevbridge mcp              Speak Model Context Protocol on stdio
   jevbridge acp              Speak Agent Client Protocol on stdio
   jevbridge eval <recipe>    Run a built-in recipe (heuristic if no keys)
   jevbridge recipes          List recipes
@@ -44,6 +46,10 @@ async function main() {
   }
   if (cmd === "acp") {
     await serveAcp();
+    return;
+  }
+  if (cmd === "mcp") {
+    await serveMcp();
     return;
   }
   process.stderr.write(`Unknown command ${cmd}\n\n${HELP}`);

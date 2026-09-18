@@ -19,7 +19,7 @@
   <h3 align="center">Jevbridge</h3>
 
   <p align="center">
-    ACP-compatible adapter that bridges TypeSafe Jev with any LLM.
+    ACP and MCP adapter that bridges TypeSafe Jev with any LLM.
     <br />
     Computer use and typed decisions alongside Codex, Claude, Grok, and OpenCode.
     <br />
@@ -56,6 +56,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#mcp-server">MCP Server</a></li>
     <li><a href="#acp-adapter">ACP Adapter</a></li>
     <li><a href="#computer-use">Computer Use</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -99,7 +100,7 @@ Intended home: [`tacticocc/Jevbridge`](https://github.com/tacticocc). This publi
 - Evaluate one `state` against mixed Choice, Score, and Noul questions.
 - Swap backends (`jev` | `llm` | `heuristic` | `auto`) without changing question shapes.
 - Confidence-gate tool calls and computer-use clicks (`execute`, `confirm`, `escalate`, `abort`).
-- Speak ACP (`initialize`, `session/new`, `session/prompt`, `session/update`) over stdio.
+- Speak MCP (`jev_decide`, `jev_gate`, `jev_computer_use`) and ACP over stdio.
 - Ship recipes for support routing, destructive command gates, context keep/drop, and GUI next-action.
 - Run offline with the heuristic backend in tests and CI.
 
@@ -121,7 +122,7 @@ Intended home: [`tacticocc/Jevbridge`](https://github.com/tacticocc). This publi
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Jevbridge is a zero-dependency Node 22 library plus an ACP stdio binary. You do not need a TypeSafe key to try it: the heuristic backend and any OpenAI-compatible LLM both speak the same protocol.
+Jevbridge is a zero-dependency Node 22 library plus MCP and ACP stdio binaries. You do not need a TypeSafe key to try it: the heuristic backend and any OpenAI-compatible LLM both speak the same protocol.
 
 ### Prerequisites
 
@@ -196,6 +197,7 @@ if (decision.action === "execute") {
 ```sh
 node --experimental-strip-types src/cli.ts recipes
 node --experimental-strip-types src/cli.ts eval computer-use
+node --experimental-strip-types src/cli.ts mcp
 node --experimental-strip-types src/cli.ts acp
 ```
 
@@ -221,6 +223,83 @@ node bin/jevbridge.mjs eval destructive-gate
 `backend: "auto"` uses Jev when a TypeSafe key is present, otherwise the LLM adapter, otherwise heuristic.
 
 _For more examples, see `src/recipes.ts` and `skills/jevbridge/SKILL.md`._
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## MCP Server
+
+Jevbridge speaks the [Model Context Protocol](https://modelcontextprotocol.io) over stdio (newline-delimited JSON-RPC 2.0). Point Claude Desktop, Cursor, Codex, OpenCode, or any MCP host at `jevbridge mcp`. The generating model keeps writing; Jevbridge is the typed decision tool.
+
+| Tool | What it does |
+| --- | --- |
+| `jev_decide` | Fan out `noul` / `choice` / `score` on one state. Returns answers + gate. |
+| `jev_gate` | Confidence-gate already computed answers (`execute` / `confirm` / `escalate` / `abort`). |
+| `jev_computer_use` | Next GUI action from a closed set: click, type, scroll, wait, screenshot, done, abort. |
+| `jev_recipe` | Run a built-in recipe (`support-route`, `computer-use`, `destructive-gate`, `compaction`). |
+
+Also exposes `jevbridge://recipe/{id}` resources and two prompts.
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "jevbridge": {
+      "command": "node",
+      "args": [
+        "--experimental-strip-types",
+        "/absolute/path/to/Jevbridge/src/cli.ts",
+        "mcp"
+      ],
+      "env": {
+        "TYPESAFE_API_KEY": "ts_..."
+      }
+    }
+  }
+}
+```
+
+Codex (`~/.codex/config.toml`):
+
+```toml
+[mcp_servers.jevbridge]
+command = "node"
+args = ["--experimental-strip-types", "/absolute/path/to/Jevbridge/src/cli.ts", "mcp"]
+```
+
+OpenCode (`opencode.json`) and Cursor (`.cursor/mcp.json`) live in `examples/`. Drop-in copies:
+
+* `examples/claude-desktop.json`
+* `examples/cursor.mcp.json`
+* `examples/codex.config.toml`
+* `examples/opencode.json`
+
+Example tool call:
+
+```json
+{
+  "name": "jev_decide",
+  "arguments": {
+    "state": "I was charged twice for order A-104. Refund the duplicate today.",
+    "questions": {
+      "refund": { "type": "noul", "instructions": "Does this request a refund?" },
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should handle this?",
+        "criteria": {
+          "billing": "Payments, invoices, refunds.",
+          "technical": "Bugs, outages, integrations.",
+          "other": "None of the above."
+        }
+      }
+    }
+  }
+}
+```
+
+Call `jev_gate` before a destructive tool. Call `jev_computer_use` instead of asking the LLM which CSS selector to click.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -303,8 +382,8 @@ const action = readAction(result.answers);
 - [x] Confidence gate
 - [x] Computer-use recipes
 - [x] ACP stdio adapter (`initialize`, `session/new`, `session/prompt`)
+- [x] MCP stdio server (`jev_decide`, `jev_gate`, `jev_computer_use`, `jev_recipe`)
 - [ ] Proxy an upstream ACP agent (Claude Code, Codex) and intercept tool calls
-- [ ] MCP tool surface (`jev_decide`, `jev_gate`)
 - [ ] Session load / resume
 - [ ] Published npm package `@tacticocc/jevbridge`
 - [ ] Transfer this repository into the `tacticocc` organization

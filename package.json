@@ -1,7 +1,7 @@
 {
   "name": "@tacticocc/jevbridge",
   "version": "0.1.0",
-  "description": "ACP-compatible adapter that bridges TypeSafe Jev with any LLM for computer use and typed decisions.",
+  "description": "ACP and MCP adapter that bridges TypeSafe Jev with any LLM for computer use and typed decisions.",
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -31,6 +31,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "mcp": "node --experimental-strip-types src/cli.ts mcp",
     "acp": "node --experimental-strip-types src/cli.ts acp",
     "eval": "node --experimental-strip-types src/cli.ts eval",
     "test": "node --experimental-strip-types --test src/*.test.ts src/**/*.test.ts"
@@ -38,6 +39,7 @@
   "keywords": [
     "jev",
     "typesafe",
+    "mcp",
     "acp",
     "llm",
     "computer-use",
